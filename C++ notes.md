@@ -274,6 +274,94 @@ int val = std::stoi("1234");
 cout << val << "-------"<< str3 <<endl;
 ```
 
+#### Struct
+
+A struct is a user-defined data type that groups related variables of different types together under a single name.
+
+```cpp
+struct Point {
+    int x;
+    int y;
+}
+
+
+Point p;
+p.x = 12;
+p.y = 13;
+```
+
+#### ENUM
+
+An `enum` creates a user-defined type with a fixed set of named integer constants, replacing magic numbers with meaningful identifiers.
+
+1. Two Types of Enumerations:
+
+    A. **Classic `enum` (Unscoped)**
+    _ Names leak into the surrounding scope.
+    _ Implicitly converts to int.
+
+    B. **Modern `enum` class (Scoped — Recommended)**
+    _ Names are hidden inside `EnumName::Value`.
+    _ Strongly typed; requires static_cast<int>() to convert to int.
+
+**Two Value Allocation Styles**
+
+1. Default Values (Auto-Incrementing)
+    - First item defaults to 0.
+    - Each subsequent item automatically increases by 1.
+2. Custom Values
+    - Explicitly assign explicit integer values (= N).
+    - Any unassigned item following a custom value increments by 1 from the previous assigned value.
+
+```cpp
+#include <iostream>
+// 1. Classic Unscoped enum (Default Values: 0, 1, 2)
+enum Direction {
+    NORTH, // 0
+    EAST,  // 1
+    SOUTH  // 2
+};
+
+
+// 2. Classic Unscoped enum (Custom Values)
+enum Priority {
+    LOW = 10,
+    MEDIUM = 20,
+    HIGH = 30
+};
+
+
+// 3. Modern Scoped enum class (Default Values: 0, 1, 2)
+enum class Color {
+    Red,   // 0
+    Green, // 1
+    Blue   // 2
+};
+
+
+// 4. Modern Scoped enum class (Custom Values)
+enum class HttpStatus {
+    OK = 200,
+    NotFound = 404,
+    ServerError = 500
+};
+
+int main() {
+    // Unscoped usage & implicit int conversion
+    Direction dir = EAST;
+    int dirVal = dir; // Automatically converts to 1
+
+    // Scoped usage (requires Scope::Value & explicit cast for int)
+    HttpStatus status = HttpStatus::NotFound;
+    int code = static_cast<int>(status); // 404
+
+    std::cout << "Direction: " << dirVal << "\n";
+    std::cout << "HTTP Status Code: " << code << "\n";
+
+    return 0;
+}
+```
+
 #### Type alias
 
 ```cpp
@@ -464,6 +552,55 @@ int func2(int &v, int v2 = 0){ // uses pass by value & default value
 }
 ```
 
+> NOTE: When overloading function or method or even operator with different declaration and definiton then only function signature should be same, name of parameter can be different in definition and declaration.
+
+**Can Operator be overloaded as function?**\
+Yes, operators can be overloaded just like functions. The key limitation is that AT LEAST ONE operand must be a user-defined type (`class`, `struct`, or `enum`).
+
+```cpp
+struct Point
+{
+    int x;
+    int y;
+};
+
+// return void so can't be stored in variable
+void operator*(Point &p, int value)
+{
+    p.x = value * p.x;
+    p.y = value * p.y;
+}
+
+// returns reference so can be stored
+Point &operator/(Point &p, int value)
+{
+    p.x = p.x / value;
+    p.y = p.y / value;
+    return p;
+}
+
+int main(int argc, char **argv)
+{
+    Point p;
+    p.x = 10;
+    p.y = 12;
+
+    // Multiply by 2 (returns void)
+    p * 2;
+    cout << "After p * 2: " << p << endl;
+
+    // Divide by 2 (returns Point&)
+    p / 2;
+    cout << "After p / 2: " << p << endl;
+    cout << "What they return" << endl;
+    cout << "P/2: " << p / 2 << endl;
+    cout << "After p / 2: " << p << endl;
+
+    // cout << "P*2: " << p * 2 << endl; Error as p*2 returns void and void can't be display
+    cout << "After p * 2: " << p << endl;
+}
+```
+
 **Using multiple files:** You can have separate `.h` or `.hpp` file where you declare or define function and then you can include it into your main file.
 
 > NOTE: when we create a separate header file we use `#pragma once` in file that we are adding like in `.h` file, so that it is only copied once.
@@ -544,3 +681,9 @@ catch(std::exception &e){
     cout << e.what()<< endl;
 }
 ```
+
+## Object Oriented Programming
+
+Discussed in ["Programming Paradigms Notes"](./Programming%20Paradigms.md)
+
+## Standard Template Library (STL) in C++
