@@ -1626,3 +1626,32 @@ int main() {
     - **Ask**: Does the parent hold a reference to it long-term?
         - **Yes** - Use Aggregation (Raw pointer T\*, std::shared_ptr, or reference T&).
         - **No** - Use Association (Pass as a function argument).
+
+## Advantages of OOPs:
+
+1. **Modularity and Maintainability**
+    - Because data and behaviour are bundled into self-contained classes, you can work on one class or feature without breaking the rest of the codebase. If a bug occurs, you generally know which class is responsible.
+2. **Reusability via Inheritance**
+    - You don't have to rewrite the same logic over and over. By creating a parent class with common traits, child classes can inherit them instantly, enforcing the DRY (Don't Repeat Yourself) principle.
+3. **Extensibility and Scalability**
+    - Thanks to polymorphism and inheritance, adding new features to an OOP system is often as simple as writing a new class that plugs into an existing interface, rather than rewriting legacy procedural code.
+4. **Security through Encapsulation**
+    - By hiding internal states and exposing only controlled public methods, you protect data from accidental corruption or unauthorized tampering by other parts of the program.
+5. **Real-World Modelling**
+    - OOP maps very intuitively to human thinking. When building a game, a Player, an Enemy, and a Weapon map cleanly to classes, making it easier for teams to conceptualise complex architectures.
+
+## Disadvantages of OOPs:
+
+1. **Steeper Learning Curve**
+    - For beginners, wrapping your head around concepts like inheritance hierarchies, polymorphism, and design patterns can be much harder than writing simple linear, procedural scripts.
+2. **"Boilerplate" Code (Overhead)**
+    - OOP often requires writing a lot of setup code before you can even do anything useful (classes, constructors, getters, setters, interfaces). For small tasks, a simple procedural function is often much faster and shorter.
+3. **Execution Speed / Performance Overhead**
+    - Because OOP relies heavily on dynamic method dispatch, object instantiation, and pointer references, it can sometimes be slower and consume more memory than low-level procedural code (which is why systems programming like OS kernels or game engines still heavily rely on C or procedural C++).
+4. **The "Gorilla/Banana Problem" (Over-engineering)**
+    - As famous software thinker **Joe Armstrong** put it: "The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle." Developers can easily fall into the trap of creating massive, overly complex inheritance trees for simple problems. In pure OOP, everything must be inside a class. If you just want to write a simple function to add two numbers, OOP forces you to invent a class, instantiate an object, and call a method.
+    - The Procedural/Functional Way: You write a function add(2, 3) and get 5. Done.
+    - **The Over-Engineered OOP Way:** You have to create a MathOperationsFactory, instantiate a Calculator object, inject a NumberProvider dependency, and then call .add().
+5. **State Management Complexity**
+    - Because objects manage internal, mutable state, bugs can happen when multiple objects interact and change each other's states over time, sometimes leading to unpredictable side effects (which is precisely why functional programming tries to avoid mutable state).
+    - It simple words it can help prevent temporal coupling. What temporal coupling is when your code is dependent on execution order like you have a program of order and you have to add all items then only submit cart and once submitted can’t added new item so in OOPs there is no way to force it. Like user can submit and then add so to prevent this you need other methods like we can return data from first one and make it a compulsory parameter of second that can ensure ordering.
