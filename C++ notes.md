@@ -687,3 +687,84 @@ catch(std::exception &e){
 Discussed in ["Programming Paradigms Notes"](./Programming%20Paradigms.md)
 
 ## Standard Template Library (STL) in C++
+
+The **Standard Template Library (STL)** is a collection of pre-written C++ class and function templates. Instead of implementing data structures like dynamic arrays, linked lists, or sorting algorithms by hand, STL gives you production-ready, highly optimized components.
+
+STL rests on four fundamental pillars:
+
+1. **Containers**
+2. **Iterators**
+3. **Algorithms**
+4. **Functors / Lambdas**
+
+### STL Containers
+
+STL (Standard Template Library) containers in C++ are template classes that provide pre-implemented, highly optimized data structures to store and manage collections of elements efficiently.
+
+C++ STL containers are broadly divided into four main categories based on how they organize and store data:
+
+1. Sequence Containers
+2. Associative Containers
+3. Unordered Associative Containers
+4. Container Adapters
+
+#### 1. Sequence Containers
+
+Sequence containers implement data structures where elements are arranged linearly and preserve their insertion order.
+
+- `std::array`: A safe wrapper around raw static arrays. Its size is fixed at compile-time and cannot grow or shrink.
+
+- `std::vector`: A dynamic array that can resize automatically at runtime. It is the default go-to container because it stores elements in contiguous memory, making it highly cache-friendly.
+
+- `std::forward_list`: A singly-linked list. It only allows forward traversal but consumes less memory per element than `std::list`.
+
+- `std::list`: A doubly-linked list. Non-contiguous memory allocation allows fast insertions or removals anywhere.
+
+- `std::deque`: A double-ended queue. It allows fast insertion and deletion at both the beginning and the end.
+
+```cpp
+
+```
+
+#### 2. Associative Containers
+
+Associative containers store elements in a strictly sorted order (typically implemented using self-balancing binary search trees like Red-Black Trees). They look up values by a key rather than an index position.
+
+- `std::set`: Collection of unique keys sorted by value.
+- `std::map`: Collection of unique key-value pairs sorted by keys.
+- `std::multiset`: Similar to a set, but allows duplicate keys.
+- `std::multimap`: Similar to a map, but allows duplicate keys.
+
+Time Complexity: $O(\log N)$ for search, insertion, and deletion.
+
+```cpp
+
+```
+
+#### 3. Unordered Associative Containers
+
+Introduced to provide faster operations, these containers organize data using hash tables instead of trees. As the name suggests, the elements are completely unsorted.
+
+- `std::unordered_set`: Unsorted unique keys.
+- `std::unordered_map`: Unsorted unique key-value pairs.
+- `std::unordered_multiset`: Unsorted keys with allowed duplicates.
+- `std::unordered_multimap`: Unsorted key-value pairs with allowed duplicate keys.
+
+Time Complexity:
+$O(1)$ average time complexity for search, insertion, and deletion $O(N)$ worst-case if many hash collisions occur.
+
+```cpp
+
+```
+
+#### 4. Container Adapters
+
+Container adapters are not independent data structures. Instead, they are interfaces that wrap around existing sequence containers (like vector, deque, or list) to restrict and adapt their behavior for specific logic.
+
+- `std::stack`: Implements Last-In, First-Out (LIFO) logic. Default underlying container is std::deque.
+- `std::queue`: Implements First-In, First-Out (FIFO) logic. Default underlying container is std::deque.
+- `std::priority_queue`: Implements a heap structure where the top element always holds the highest priority. Default underlying container is std::vector
+
+```cpp
+
+```
