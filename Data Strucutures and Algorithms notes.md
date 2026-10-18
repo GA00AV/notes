@@ -184,7 +184,7 @@ It is fundamentally flawed for comparing algorithms universally due to four key 
 
 So now we know that just measuring time and memory taken by an algorithm isn't a good way of measuring its performance and we need a better way that shouldn't get affected by all those extra noise. And that's why we use **Complexity Analysis**.
 
-Complexity analysis .
+### Complexity analysis
 
 So, **Complexity analysis** is a technique used to evaluate an algorithm's efficiency independently of any machine or environment.
 
@@ -193,9 +193,43 @@ There are mainly two types of complexity analysis:
 1. **Time Complexity Analysis**: Measures how the amount of operations/running time increases as the input size (n) grows. We count the number of basic operations (like comparisons or assignments), not actual seconds.
 2. **Space Complexity Analysis**: Measures how much extra memory (auxiliary space) the algorithm requires in RAM relative to the input size n.
 
-Okay now we know we use complexity analysis instead of measuring time and memory but **how do we actually do it mathematically?** So for this, we'll introduce a new concept called "Asymptotic Analysis".
+Okay now we know we use complexity analysis instead of measuring time and memory but **how do we actually do it mathematically?**
 
-To understand **Asymptotic Analysis**, consider this equation:
+So, let's look at our previous example:
+
+```cpp
+
+// Algorithm 1
+bool isPalindrome(int x) {
+        std::string o = std::to_string(x);  // it takes a constant time -- c
+        std::string str = std::to_string(x); // it takes a constant time -- k
+        std::reverse(str.begin(), str.end()); // it takes some time that is depend on n -- pn
+        return str == o; // it takes constant time m
+    }
+
+// Total time: c + k + pn + m
+
+// Algorithm 2
+bool isPalindrome(int x) {
+        if(x < 0 || (x % 10 == 0 && x != 0)) return false;
+        int rev = 0;
+        while(x > rev) { // runs as number of digits -- n
+            rev = rev * 10 + x % 10; // takes c time
+            x /= 10; // takes k time
+        }
+        return x == rev || x == rev / 10; // takes m time
+}
+
+// total time = n*(c + k) + m
+```
+
+Okay so now we have got the time compleixty of function in terms of n, and to decide which algorithm is better we can see which takes less time, i.e. we'll just have to compare these mathematical functions. We can easily do it by plotting graph of these mathematical functions.
+![](graph.png)
+Let's assume $C(n)$ represent `algorithm 1` and $R(n)$ represent `algorithm 2`. So we can clearly see that when value of $n \gt 500$, `algorithm 2` teakes less time than `algorithm 1`. And in most situation size of input($n$) is very large so `algorithm 2` is better.
+
+Nice, now we can evaluate algorithms indpendent of any machine or environment. But, as we mainly care about algorithms that takes large inputs so is there any better way to compare these algorithms, where we can still use this concept of calculating time in steps but simply time function and compare those time functions easily. So for this, we'll introduce a new concept called "Asymptotic Analysis".
+
+To understand essence **Asymptotic Analysis**, consider this equation:
 $$ y = x^{3} + x + 2 $$
 
 if we consider the values of $y$, at \
@@ -206,6 +240,365 @@ $x=100, y=1000102$\
 $x=10000, y=10000000010002$\
 as you can see as as value of input ($x$) increases the the $x^3$ part of the function becomes dominating. So as $x \to \infty$, we can assume that $y \approx x^{3}$. This is the core idea of **Asymptotic Analysis**.
 
+### Asymptotic Analysis
+
 **Asymptotic analysis** is the mathematical way of evaluating an algorithm's performance as the input size (n) approaches infinity ($n \to \infty$).
 
-We do **complexity analysis** of an algorithm by using **Asymptotic anlysis**. So, **complexity analysis** is more like a technique or idea and **asymptotic analysis** is the mathematics used to do it.
+In **Asymptotic Analysis**, we have mainly 3 notations:
+
+1. Big-O ($O$): used to measure worst-case time complexity or upper bound.
+2. Big-Omega ($\Omega$): used to measure average-case time complexity or tight bound.
+3. Big-Theta ($\Theta$): used to measure best-case time complexity or lower bound.
+
+### Mathematics of Asymptotic Notations
+
+#### Big $O$
+
+**Big $O$** describes the maximum growth rate of an algorithm. It guarantees that the algorithm will never grow faster than a certain rate for large inputs.
+
+**Mathematical definition**: A function is called Big $O(n)$ if there exists a function $g(n)$ such that: $0 \leq f(x) \leq c.g(n)$ for every $n \geq n_0$.
+
+Here is the definition of other notations:
+![](./notations_graph.webp)
+
+Okay so now that we know about mathematical definition let's apply it using one problem:
+
+**Question**: _Prove that $2n  + 2$ can be consisered of complexity $O(n^2)$_.
+
+**Answer**:
+We know that $2n + 2 \leq n^2$ for every $n \geq 2$ so $2n  + 2$ can be consisered of complexity $O(n^2)$.
+
+We just saw an example problem regarding finding Big $O$, even though our answer that _"$2n  + 2$ can be consisered of complexity $O(n^2)$"_ is correct but in real life we don't write it as $O(n^2)$ rather we consider it as $O(n)$. Okay but how's that?
+
+Well **we have some rules that we have to follow when we want to find out Big $O$, those rules are**:
+
+1. **Focus on the Worst-Case**: Always assume the input causes the maximum possible work (e.g., searching for an element that isn't in the list).
+2. **Drop Constants**: Multiplicative constants don't change the growth curve at scale.
+    - $3N \to O(N)$
+    - $100N^3 \to O(N^3)$
+3. **Drop Lower-Order Terms**: Keep only the fastest-growing term because it dominates as $N \to \infty$.
+    - $N^2 + 5N + 3 \to O(N^2)$
+
+Okay enough theory, let's now find out time complexity in Big $O$ of a real algorithm.
+
+Consider this algorithm:
+
+```cpp
+int sum(int arr[], int size){ // runs N time, here N=size
+    int result = 0; // takes constant time a
+    for(int i = 0; i < size; ++i){
+        result += arr[i]; // takes constant time b
+    }
+}
+```
+
+So we can see that this algorithm would have time complexity as $a + bN$ and in terms of big $O$, we can say its $O(N)$.
+
+### Calculating Big $O$
+
+#### Iterative functions
+
+**Example 1**:
+
+```cpp
+int func(int n){
+    count = 0; // constant time a
+    for (int i = 0; i < n; ++i){ // runs n time
+        count += 1; // constant time b
+    }
+    return count; // constant time c
+}
+```
+
+_Solution:_
+
+$$
+\begin{aligned}
+time(n) &= a + bN + c \\
+          &= (a+c)+bN \\
+          & \approx O(N)
+
+\end{aligned}
+$$
+
+**Example 2**:
+
+```cpp
+int func(int n){
+    count = 0; // constant time a
+    for (int i = 0; i < n; ++i){ // runs n time
+        for (int j = 0; j < n; ++j){ // runs n time
+            count += 1; // constant time b
+        }
+    }
+    return count; // constant time c
+}
+```
+
+_Solution:_
+
+$$
+\begin{aligned}
+time(n) &= a + bN + bN + ... + 2b + b + c \\
+        &= (a+c)+b\sum_{n=1}^{N}N \\
+        &= (a+c)+bN^2 \\
+        & \approx O(N^2)
+\end{aligned}
+$$
+
+**Example 3**:
+
+```cpp
+int func(int n){
+    count = 0; // constant time a
+    for (int i = 0; i < n; ++i){ // runs n time
+        for (int j = i; j < n; ++j){ // runs n, n-1, n-2, .... 1 times
+            count += 1; // constant time b
+        }
+    }
+    return count; // constant time c
+}
+```
+
+_Solution:_
+
+$$
+\begin{aligned}
+time(n) &= a + bN + b(N-1) + ... + 2b + b + c \\
+        &= (a+c)+b\sum_{n=0}^{N-1}(N-n) \\
+        &= (a+c)+bN^2 - \frac{b}{2}N(N-1)\\
+        &= (a+c)+\frac{b}{2}N^2 - \frac{b}{2}N\\
+        & \approx O(N^2)
+\end{aligned}
+$$
+
+**Example 4**:
+
+```cpp
+int func(int n){
+    count = 0; // constant time a
+    while (n > 1){
+        n = n / 2; // constant time b
+        count += 1; // constant time c
+    }
+    return count; // constant time d
+}
+```
+
+_Solution:_
+
+Let's look at the loop first. it runs till $n \leq 1$ as $n$ is integer. Let's now trace how many times the loop would run.
+
+- In first loop it runs with $n=N$,
+- second loop: $n = N/2$
+- third loop: $n=N/2^2$
+- $k^{th}$ loop: $n=N/2^k$
+
+So after $k^{th}$ loop, $n=1$. it means:
+
+$$
+\begin{aligned}
+\frac{N}{2^k} &= 1 \\
+            N &= 2^k \\
+            \log_2{N} &=k
+\end{aligned}
+$$
+
+It means for $n=N$, loop runs $k=\log_2{N} \approx \log{N}$ times.
+
+$$
+\begin{aligned}
+time(n) &= a + (b+c)\log{N} + d \\
+        &= (a+d) + (b+c)\log{N} \\
+        & \approx O(\log{N})
+\end{aligned}
+$$
+
+#### Recursive functions
+
+**Example 1:**
+
+```cpp
+void func(int n){
+    if (n > 0){
+        std::cout <<"printing"; // constant time a
+        func(n-1); // T(n-1)
+    }
+}
+```
+
+_Solution:_
+
+We know $T(0) = 0$
+
+$$
+\begin{aligned}
+
+T(N) &= T(N-1) + a \\
+     &= (T(N-2) + a) + a \\
+     &= T(N-2) + 2a\\
+     &= T(N-3) + 3a\\
+     &= T(N-K) + Ka\\
+\end{aligned}
+$$
+
+when $N=K$
+
+$$
+\begin{aligned}
+T(n) &= T(N-K) + Ka\\
+     &= T(0) + Na\\
+     &= Na\\
+     & \approx O(N)
+\end{aligned}
+$$
+
+**Example 2:**
+
+```cpp
+void func(int n){
+    if (n > 0){
+        for (int i = 0; i < N; ++i){ // runs N time
+            std::cout <<"printing"; // constant time a
+        }
+        func(n-1);
+    }
+}
+```
+
+_Solution:_
+
+We know $T(0) = 0$
+
+$$
+\begin{aligned}
+
+T(N) &= T(N-1) + Na \\
+     &= (T(N-2) + Na) + Na \\
+     &= T(N-2) + 2Na\\
+     &= T(N-3) + 3Na\\
+     &= T(N-K) + KNa\\
+\end{aligned}
+$$
+
+when $N=K$
+
+$$
+\begin{aligned}
+T(n) &= T(N-K) + KNa\\
+     &= T(0) + aN^2\\
+     &= aN^2\\
+     & \approx O(N^2)
+\end{aligned}
+$$
+
+**Example 3:**
+
+```cpp
+void func(int n){
+    if (n > 0){
+        for (int i = 1; i < N; i = i*2){ // runs logN times
+            std::cout <<"printing"; // constant time a
+        }
+        func(n-1);
+    }
+}
+```
+
+_Solution:_
+Let's first look at the loop. assume $n=N$, it start with $i=0$ and then in first look it run and makes $i=2$
+So,
+
+- In first round, $i=1$
+- second round, $i=2$
+- third round, $i=2^2$
+- fourth round, $i=2^3$
+- $k^th$ round, $i=2^{k-1}$
+
+assuming after a certain value of $k$, $2^{k-1} > N$ so at max it would run till $k-1$ times.
+
+$$
+\begin{aligned}
+N &< 2^{k-1} \\
+\log{N} &< k-1 \\
+k-1 &> \log(N)
+\end{aligned}
+$$
+
+It means loop would run $log(N)$ times.
+
+We know $T(0) = 0$
+
+$$
+\begin{aligned}
+
+T(N) &= T(N-1) + \log{N}a \\
+     &= (T(N-2) + Na) + \log{N}a \\
+     &= T(N-2) + 2\log{N}a\\
+     &= T(N-3) + 3\log{N}a\\
+     &= T(N-K) + K\log{N}a\\
+\end{aligned}
+$$
+
+when $N=K$
+
+$$
+\begin{aligned}
+T(n) &= T(N-K) + K\log{N}a\\
+     &= T(0) + aN\log{N}\\
+     &= aN\log{N}\\
+     & \approx O(N\log{N})
+\end{aligned}
+$$
+
+**Example 4:**
+
+```cpp
+void func(int n){
+    if (n > 0){
+        std::cout <<"printing"; // constant time a
+        func(n-1);
+        func(n-1);
+    }
+}
+```
+
+_Solution:_
+
+We know $T(0) = 0$
+
+$$
+\begin{aligned}
+
+T(N) &= 2T(N-1) + a \\
+     &= 2(2T(N-2) + a) + a \\
+     &= 2^2T(N-2) + a + 2a\\
+     &= 2^3T(N-3) + a(1+2+2^2)\\
+     &= 2^KT(N-K) + a(1+2+...+2^{K-1})\\
+\end{aligned}
+$$
+
+when $N=K$
+
+$$
+\begin{aligned}
+T(n) &= 2^KT(N-K) + a(1+2+...+2^{N-1})\\
+     &= a(1+2+...+2^{N-1})\\
+     &= a\frac{2^N -1}{2-1}\\
+     &= a(2^N -1)\\
+     &= a2^N -a\\
+     & \approx O(2^N)
+\end{aligned}
+$$
+
+#### Order of complexities
+
+There are some common time complexities like $O(n)$, $O(log (n))$ or $O(1)$ that we often encounter in real life so knowing order of complexity would make it easy to compare algorithms.
+
+Here is the graph of some common time complexities.
+![](./big-o-graph.jpg)
+
+Through the above graph we can clearly see that time taken $O(N)$ is more than $O(1)$ and exact order is as follows:
+$$O(1) < O(log(N)) < O(N) < O(Nlog(N)) < O(N^2) < O(2^N) < O(N!)$$
+
+# Maths for DSA
