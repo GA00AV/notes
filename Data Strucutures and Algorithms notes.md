@@ -95,17 +95,17 @@ For example if you have to add two numbers, the algorithm is like:
 
 ## 1. Basics of Algorithm
 
-| Problems                                                                            | Answers   | Video solution |
-| ----------------------------------------------------------------------------------- | --------- | -------------- |
-| [Reverse a Number](https://leetcode.com/problems/reverse-integer)                   | [Article] | [Video]        |
-| [Check Palindrome](https://leetcode.com/problems/palindrome-number)                 | [Article] | [Video]        |
-| [Armstrong Numbers](https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1) | [Article] | [Video]        |
+| Problems                                                                            | Answers                                                                                      | Video solution |
+| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------- |
+| [Reverse a Number](https://leetcode.com/problems/reverse-integer)                   | [Article](./Solutions/1.%20Basics/1.%20Basics%20of%20Algorithm/1.%20Reverse%20a%20Number.md) | [Video]        |
+| [Check Palindrome](https://leetcode.com/problems/palindrome-number)                 | [Article](./Solutions/1.%20Basics/1.%20Basics%20of%20Algorithm/2.%20Check%20Palindrome.md)   | [Video]        |
+| [Armstrong Numbers](https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1) | [Article](./Solutions/1.%20Basics/1.%20Basics%20of%20Algorithm/3.%20Armstrong%20Numbers.md)  | [Video]        |
 
 ## 2. Basics of recursion
 
-| Problems                                                                                                          | Answers   | Video solution |
-| ----------------------------------------------------------------------------------------------------------------- | --------- | -------------- |
-| [Power of Four](https://leetcode.com/problems/power-of-four/description/?envType=problem-list-v2&envId=recursion) | [Article] | [Video]        |
+| Problems                                                                                                          | Answers                                                                                   | Video solution |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | -------------- |
+| [Power of Four](https://leetcode.com/problems/power-of-four/description/?envType=problem-list-v2&envId=recursion) | [Article](./Solutions/1.%20Basics/2.%20Basics%20of%20recursion/1.%20Power%20of%20Four.md) | [Video]        |
 
 ## 3. Analysing Performance of an Algorithm
 
