@@ -95,14 +95,17 @@ For example if you have to add two numbers, the algorithm is like:
 
 ## 1. Basics of Algorithm
 
-1. [Reverse a Number](https://leetcode.com/problems/reverse-integer)
-1. [Check Palindrome](https://leetcode.com/problems/palindrome-number)
-1. [Armstrong Numbers](https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1)
+| Problems                                                                            | Answers   | Video solution |
+| ----------------------------------------------------------------------------------- | --------- | -------------- |
+| [Reverse a Number](https://leetcode.com/problems/reverse-integer)                   | [Article] | [Video]        |
+| [Check Palindrome](https://leetcode.com/problems/palindrome-number)                 | [Article] | [Video]        |
+| [Armstrong Numbers](https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1) | [Article] | [Video]        |
 
 ## 2. Basics of recursion
 
-1. [Power of Four](https://leetcode.com/problems/power-of-four/description/?envType=problem-list-v2&envId=recursion)
-1. [Fibonacci Number](https://leetcode.com/problems/fibonacci-number/description/?envType=problem-list-v2&envId=recursion)
+| Problems                                                                                                          | Answers   | Video solution |
+| ----------------------------------------------------------------------------------------------------------------- | --------- | -------------- |
+| [Power of Four](https://leetcode.com/problems/power-of-four/description/?envType=problem-list-v2&envId=recursion) | [Article] | [Video]        |
 
 ## 3. Analysing Performance of an Algorithm
 
@@ -278,6 +281,7 @@ Well **we have some rules that we have to follow when we want to find out Big $O
     - $100N^3 \to O(N^3)$
 3. **Drop Lower-Order Terms**: Keep only the fastest-growing term because it dominates as $N \to \infty$.
     - $N^2 + 5N + 3 \to O(N^2)$
+4. **If any function takes only constant time then it is said to be $O(1)$**
 
 Okay enough theory, let's now find out time complexity in Big $O$ of a real algorithm.
 
@@ -302,8 +306,8 @@ So we can see that this algorithm would have time complexity as $a + bN$ and in 
 
 ```cpp
 int func(int n){
-    count = 0; // constant time a
-    for (int i = 0; i < n; ++i){ // runs n time
+    int count = 0; // constant time a & constant space p
+    for (int i = 0; i < n; ++i){ // runs n time & constant space by i -- q
         count += 1; // constant time b
     }
     return count; // constant time c
@@ -311,6 +315,8 @@ int func(int n){
 ```
 
 _Solution:_
+
+**Time Complexity**:
 
 $$
 \begin{aligned}
@@ -321,13 +327,22 @@ time(n) &= a + bN + c \\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+$$
+\begin{aligned}
+space(n) &= p+ q\\
+&\approx O(1)
+\end{aligned}
+$$
+
 **Example 2**:
 
 ```cpp
 int func(int n){
-    count = 0; // constant time a
-    for (int i = 0; i < n; ++i){ // runs n time
-        for (int j = 0; j < n; ++j){ // runs n time
+    int count = 0; // constant time a & constant space p
+    for (int i = 0; i < n; ++i){ // runs n time & constant space by i -- q
+        for (int j = 0; j < n; ++j){ // runs n time & constant space by j -- r
             count += 1; // constant time b
         }
     }
@@ -336,6 +351,8 @@ int func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
 
 $$
 \begin{aligned}
@@ -346,13 +363,22 @@ time(n) &= a + bN + bN + ... + 2b + b + c \\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+$$
+\begin{aligned}
+space(n) &= p+ q + r\\
+&\approx O(1)
+\end{aligned}
+$$
+
 **Example 3**:
 
 ```cpp
 int func(int n){
-    count = 0; // constant time a
-    for (int i = 0; i < n; ++i){ // runs n time
-        for (int j = i; j < n; ++j){ // runs n, n-1, n-2, .... 1 times
+    int count = 0; // constant time a & constant space p
+    for (int i = 0; i < n; ++i){ // runs n time & constant space by i -- q
+        for (int j = i; j < n; ++j){ // runs n, n-1, n-2, .... 1 times & constant space by j -- r
             count += 1; // constant time b
         }
     }
@@ -361,6 +387,8 @@ int func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
 
 $$
 \begin{aligned}
@@ -372,11 +400,20 @@ time(n) &= a + bN + b(N-1) + ... + 2b + b + c \\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+$$
+\begin{aligned}
+space(n) &= p+ q + r\\
+&\approx O(1)
+\end{aligned}
+$$
+
 **Example 4**:
 
 ```cpp
 int func(int n){
-    count = 0; // constant time a
+    int count = 0; // constant time a and constant space p
     while (n > 1){
         n = n / 2; // constant time b
         count += 1; // constant time c
@@ -386,6 +423,8 @@ int func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
 
 Let's look at the loop first. it runs till $n \leq 1$ as $n$ is integer. Let's now trace how many times the loop would run.
 
@@ -414,6 +453,15 @@ time(n) &= a + (b+c)\log{N} + d \\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+$$
+\begin{aligned}
+space(n) &= p\\
+&\approx O(1)
+\end{aligned}
+$$
+
 #### Recursive functions
 
 **Example 1:**
@@ -428,6 +476,8 @@ void func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
 
 We know $T(0) = 0$
 
@@ -453,6 +503,12 @@ T(n) &= T(N-K) + Ka\\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+For space complexity we see that function itself doesn't allocate any memory but we function calls are stored on stack and function would keep stacking until it hits the base condition at $n=0$.
+
+So space complexity is $O(N)$
+
 **Example 2:**
 
 ```cpp
@@ -467,6 +523,8 @@ void func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
 
 We know $T(0) = 0$
 
@@ -492,6 +550,12 @@ T(n) &= T(N-K) + KNa\\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+For space complexity we see that function itself doesn't allocate any memory but we function calls are stored on stack and function would keep stacking until it hits the base condition at $n=0$.
+
+So space complexity is $O(N)$
+
 **Example 3:**
 
 ```cpp
@@ -506,6 +570,9 @@ void func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
+
 Let's first look at the loop. assume $n=N$, it start with $i=0$ and then in first look it run and makes $i=2$
 So,
 
@@ -551,6 +618,12 @@ T(n) &= T(N-K) + K\log{N}a\\
 \end{aligned}
 $$
 
+**Space complexity**:
+
+For space complexity we see that function itself doesn't allocate any memory but we function calls are stored on stack and function would keep stacking until it hits the base condition at $n=0$.
+
+So space complexity is $O(N)$
+
 **Example 4:**
 
 ```cpp
@@ -564,6 +637,8 @@ void func(int n){
 ```
 
 _Solution:_
+
+**Time complexity**:
 
 We know $T(0) = 0$
 
@@ -590,6 +665,12 @@ T(n) &= 2^KT(N-K) + a(1+2+...+2^{N-1})\\
      & \approx O(2^N)
 \end{aligned}
 $$
+
+**Space complexity**:
+
+For space complexity we see that function itself doesn't allocate any memory but we function calls are stored on stack and function would keep stacking until it hits the base condition at $n=0$.
+
+So space complexity is $O(N)$
 
 #### Order of complexities
 
