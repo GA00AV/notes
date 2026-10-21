@@ -314,6 +314,7 @@ int* const ptr6 = &val4; // const ptr
     char str[20] = "hello"; // stores chars array with one extra char '\0' as null character that tells end of text.
     char str2[] = "hello";
     cout << str2 <<endl;
+    cin >> str; // get one word
 
 // strings from STL
 
