@@ -55,6 +55,80 @@ Convention:
 - snake_case, for variables
 - CAPITAL_LETTERS for constants
 
+
+
+### Types of data-types
+
+**I. Primitive (Built-in) Data Types:**
+
+| Data type | Keyword | Size | Purpose |
+|-----|------|-------|----|
+| Integer | `int` | 4 bytes | Stores whole numbers without decimals.|
+| Character | `char` |1 bytes | Stores a single character enclosed in single quotes (like 'A' in their ASCII code). |
+| Boolean | `bool` |1 bytes | Stores logical values: true (1) or false (0).| 
+| Floating point | `float` |4 bytes |Stores single-precision decimal or fractional numbers. **Precision is $\sim$ 7 decimal digits.**|
+| Double floating point | `double` |8 bytes |  Stores double-precision decimals (higher accuracy than float).**Precision is around $\sim$ 15 decimal digits.**|
+| Void | `void` |N/A | Represents the absence of data (commonly used for function return types).
+
+**II. Derived Data Types:**
+
+1. Array
+2. Pointers
+3. References
+
+**III. Non-primitives or User-Defined Data Types:**
+
+1. Class
+2. Struct
+3. Enum
+4. Union
+
+### Type modifiers
+**Type modifiers** in C++ are keywords used to alter the properties (size, range, or sign) of fundamental data types like `int`, `char`, and `double`. They allow you to optimize memory allocation and safely manage the ranges of your variables.
+
+C++ provides four primary type modifiers:
+1. **signed**: Allows a variable to hold both positive and negative values (default for integer types).
+2. **unsigned**: Restricts a variable to non-negative values, shifting the data range to support much larger positive numbers.
+3. **short**: Decreases the storage size (and range) of integer types to save memory.
+4. **long**: Increases the storage size (and precision/range) of data types
+
+| Base Type | Modifier combination | Common size | Typical range | Macro limits (`<climits>`) |
+|----|-----|------|-----|------|
+|`char`| `signed char` or just `char`| 1 Byte | -128 to 127 | `CHAR_MIN` to `CHAR_MAX`|
+|| `unsigned char` | 1 Byte | 0 to 255 | `UCHAR_MAX`|
+|`int` | `short int` (or just `short`) | 2 Bytes |-32,768 to 32,767 | SHRT_MIN to SHRT_MAX|
+| | `unsigned short int` | 2 Bytes |0 to 65,535 |USHRT_MAX |
+| | `signed int` (or just `int`) | 4 Bytes |-2,147,483,648 to 2,147,483,647 |INT_MIN to INT_MAX |
+| | `unsigned int` (or just `unsigned`) | 4 Bytes |0 to 4,294,967,295 | UINT_MAX|
+| | `long int` (or just `long`) | 4 or 8 Bytes | Same as `int` or expands up to 64-bit range| LONG_MIN to LONG_MAX|
+| | `unsigned long int` (or just `unsigned long`) | 4 or 8 Bytes | Same as `unsigned int` or expands up to 64-bit range| ULONG_MAX|
+| | `long long int` | 8 Bytes | $-9.22 × 10^{18}$ to $9.22 × 10^{18}$| LLONG_MIN to LLONG_MAX|
+| | `unsigned long long int` | 8 Bytes |0 to 18,446,744,073,709,551,615 | ULLONG_MAX|
+|`double` | `long double` | 8, 12, or 16 Bytes | Provides extended floating-point precision $\sim$ 19 digits. | - |
+
+
+
+**NOTE:** 
+* **Modifier Combination**: You can combine sign modifiers with size modifiers. For instance, unsigned long int tells the compiler to allocate an integer with an expanded memory layout that only tracks non-negative values.
+
+* **Floating-Point Limitation**: The short, signed, and unsigned modifiers cannot be applied to float or double. Only long can be paired with double (long double)
+
+
+**How to Check Limits Dynamically?**
+
+Because values are system-dependent, hardcoding ranges is discouraged. Modern C++ provides a type-safe header library called <limits>. You can query the true bounds of any type directly on your machine:
+```cpp
+#include <iostream>
+#include <limits> // Required header
+
+int main() {
+    std::cout << "Min int: " << std::numeric_limits<int>::min() << "\n";
+    std::cout << "Max int: " << std::numeric_limits<int>::max() << "\n";
+    
+    std::cout << "Max float: " << std::numeric_limits<float>::max() << "\n";
+    return 0;
+}
+```
 ### Special operators & functions
 
 ```cpp
@@ -77,30 +151,6 @@ if (typeid(myInt) == typeid(int)) {
     std::cout << "myInt is an int!\n";
 }
 ```
-
-### Types of data-types
-
-**I. Primitive:**
-
-1. Integer
-2. Float or Double
-3. Char
-4. Bool
-5. Void
-
-**II. Derived:**
-
-1. Array
-2. Pointers
-3. References
-4. Strings
-
-**III. Non-primitives:**
-
-1. Class
-2. Struct
-3. Enum
-4. Union
 
 #### Integers
 
@@ -272,6 +322,8 @@ int* const ptr6 = &val4; // const ptr
 std::string str3 = "hello";
 int val = std::stoi("1234");
 cout << val << "-------"<< str3 <<endl;
+cin >> str3; // get one word
+std::getline(std::cin, str3); // get entire line
 ```
 
 #### Struct
