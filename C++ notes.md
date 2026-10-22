@@ -492,12 +492,40 @@ int main(){
 ```
 
 ## Type casting or Type conversion
+Type conversion means changing a value from one data type to another.
 
 Two types:
 
-1. Implicit (Type coersion)
-2. Explicit (type conversion)
+1. **Implicit (Type coersion):** also known as coercion or type promotion, this happens automatically without user intervention when mixing compatible types. The compiler typically promotes the "smaller" data type to the "larger" data type to avoid data loss.
+    - The standard hierarchy for promotion: `bool` → `char` → `short` → `int` → `unsigned int` → `long` → `float` → `double` → `long double`
+```cpp
+int i = 10;
+char c = 'A'; // ASCII value of 'A' is 65
 
+// c is implicitly promoted to int (65) before addition
+int sum = i + c; 
+
+// i is implicitly promoted to double before assignment
+double d = i; 
+
+std::cout << "Sum: " << sum << std::endl; // Outputs 75
+std::cout << "Double: " << d << std::endl; // Outputs 10.0
+```
+⚠️ Implicitly converting a larger type to a smaller type (e.g., double to int or int to bool) results in data loss, truncation, or unexpected sign conversions.
+
+
+2. Explicit (type conversion): When you need to force a conversion that the compiler wouldn't do automatically or to avoid data truncation risks, you perform explicit type casting.
+```cpp
+int total = 15;
+int num = 2;
+
+double mean = total / num; // 7 as int/int is int so truncates
+
+// explicitly convert
+mean = double(total) / num; // 7.5 as double/int, int is promoted to double
+```
+
+**Some more examples**:
 ```cpp
 // old C-style
 float j = 12.0;
